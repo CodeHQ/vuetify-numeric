@@ -60,9 +60,9 @@ export default Vue.extend({
     },
     computedValue (): string {
       if (this.internalValue) {
-        return (this.$props.prefix ? this.$props.prefix : '') + this.numberFormatter.format(this.internalValue)
+        return (this.$props.prefix ? this.$props.prefix : '') + this.internalValue
       }
-      return (this.$props.prefix ? this.$props.prefix : '') + this.numberFormatter.format(0)
+      return (this.$props.prefix ? this.$props.prefix : '')
     },
     computedColor (): string | undefined {
       if (this.internalValue < 0 && this.$props.negativeTextColor) {
@@ -115,60 +115,61 @@ export default Vue.extend({
         keyEvent.stopPropagation()
         return
       }
-      if (keyEvent.key !== 'ArrowLeft' && keyEvent.key !== 'ArrowRight') {
-        keyEvent.preventDefault()
-      }
-      keyEvent.stopPropagation()
-      if (keyEvent.key === 'Enter') {
+      // if (keyEvent.key !== 'ArrowLeft' && keyEvent.key !== 'ArrowRight') {
+      //   keyEvent.preventDefault()
+      // }
+      // keyEvent.stopPropagation()
+      if (keyEvent.key.toUpperCase() === 'C') {
         this.updateDimensions()
         this.activateCalculator()
+        keyEvent.preventDefault()
         return
       } else if (keyEvent.key === 'Delete') {
         this.clearValue()
         return
       }
-      const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-      let strVal = Math.trunc(this.internalValue).toString()
-      if (numericButtons.includes(keyEvent.key)) {
-        if (this.fractDigitsEdited) {
-          if (this.fractPart === '0' && keyEvent.key !== '0') {
-            this.fractPart = keyEvent.key
-          } else if (this.fractPart !== '0') {
-            this.fractPart += keyEvent.key.toString()
-          }
-        } else {
-          if (strVal === '0' && keyEvent.key !== '0') {
-            strVal = keyEvent.key
-          } else if (strVal !== '0') {
-            strVal += keyEvent.key
-          }
-        }
-      } else if (keyEvent.key === '-') {
-        if (strVal.startsWith('-')) strVal = strVal.replace('-', '')
-        else strVal = '-' + strVal
-      } else if (keyEvent.key === 'Backspace') {
-        if (this.fractDigitsEdited) {
-          this.fractPart = this.fractPart.length <= 1 ? '0' : this.fractPart.substring(0, this.fractPart.length - 1)
-        } else {
-          if (strVal.length === 2 && strVal.startsWith('-')) {
-            strVal = '0'
-          } else {
-            strVal = strVal.length <= 1 ? '0' : strVal.substring(0, strVal.length - 1)
-          }
-        }
-      } else if ([',', '.'].includes(keyEvent.key)) {
-        if (this.$props.precision > 0) {
-          this.fractDigitsEdited = !this.fractDigitsEdited
-        }
-      }
-      if (this.$props.precision > 0) {
-        strVal = strVal + '.' + this.fractPart
-      }
+      // const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+      const strVal = Math.trunc(this.internalValue).toString()
+      // if (numericButtons.includes(keyEvent.key)) {
+      //   if (this.fractDigitsEdited) {
+      //     if (this.fractPart === '0' && keyEvent.key !== '0') {
+      //       this.fractPart = keyEvent.key
+      //     } else if (this.fractPart !== '0') {
+      //       this.fractPart += keyEvent.key.toString()
+      //     }
+      //   } else {
+      //     if (strVal === '0' && keyEvent.key !== '0') {
+      //       strVal = keyEvent.key
+      //     } else if (strVal !== '0') {
+      //       strVal += keyEvent.key
+      //     }
+      //   }
+      // } else if (keyEvent.key === '-') {
+      //   if (strVal.startsWith('-')) strVal = strVal.replace('-', '')
+      //   else strVal = '-' + strVal
+      // } else if (keyEvent.key === 'Backspace') {
+      //   if (this.fractDigitsEdited) {
+      //     this.fractPart = this.fractPart.length <= 1 ? '0' : this.fractPart.substring(0, this.fractPart.length - 1)
+      //   } else {
+      //     if (strVal.length === 2 && strVal.startsWith('-')) {
+      //       strVal = '0'
+      //     } else {
+      //       strVal = strVal.length <= 1 ? '0' : strVal.substring(0, strVal.length - 1)
+      //     }
+      //   }
+      // } else if ([',', '.'].includes(keyEvent.key)) {
+      //   if (this.$props.precision > 0) {
+      //     this.fractDigitsEdited = !this.fractDigitsEdited
+      //   }
+      // }
+      // if (this.$props.precision > 0) {
+      //   strVal = strVal + '.' + this.fractPart
+      // }
       let result = Number(strVal)
-      if (this.$props.precision > 0) {
-        const p = Math.pow(10, this.$props.precision)
-        result = Math.round(Number(result) * p) / p
-      }
+      // if (this.$props.precision > 0) {
+      //   const p = Math.pow(10, this.$props.precision)
+      //   result = Math.round(Number(result) * p) / p
+      // }
       result = result = Math.max(Math.min(this.$props.max, result), this.$props.min)
       this.internalValue = result
     },

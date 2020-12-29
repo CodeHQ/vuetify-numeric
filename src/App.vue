@@ -213,7 +213,7 @@ export default Vue.extend({
     useGrouping: true,
     min: -10000,
     max: 25000,
-    prefix: '$',
+    prefix: '',
     precision: 2,
     locale: 'en-US',
     locales: ['en-US', 'ru-RU', 'zh-ZH'],
