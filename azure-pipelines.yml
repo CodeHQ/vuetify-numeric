@@ -35,10 +35,3 @@ steps:
   condition: |
     and(not(eq(variables['Build.Reason'], 'PullRequest')),
         eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-
-- task: Npm@1
-  inputs:
-    command: 'publish'
-    publishEndpoint: 'Code HQ GitHub NPM'
-  condition: |
-    not(eq(variables['Build.Reason'], 'PullRequest'))
