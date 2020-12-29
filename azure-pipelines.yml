@@ -10,6 +10,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: Cache@2
+  inputs:
+    key: 'package.json'
+    path: 'node_modules'
+
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
@@ -19,3 +24,20 @@ steps:
     npm ci
     npm run publish
   displayName: 'npm install and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'dist'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish dist'
+  condition: |
+    and(not(eq(variables['Build.Reason'], 'PullRequest')),
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+
+- task: Npm@1
+  inputs:
+    command: 'publish'
+    publishEndpoint: 'Code HQ GitHub NPM'
+  condition: |
+    not(eq(variables['Build.Reason'], 'PullRequest'))

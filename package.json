@@ -1,5 +1,5 @@
 {
-  "name": "vuetify-numeric",
+  "name": "@codehq/vuetify-numeric",
   "version": "0.1.7",
   "private": false,
   "description": "Numeric input components for use with vuetifyjs",
