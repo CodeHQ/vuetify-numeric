@@ -119,7 +119,7 @@ export default Vue.extend({
       //   keyEvent.preventDefault()
       // }
       // keyEvent.stopPropagation()
-      if (keyEvent.key.toUpperCase() === 'C') {
+      if (keyEvent.key === '=') {
         this.updateDimensions()
         this.activateCalculator()
         keyEvent.preventDefault()

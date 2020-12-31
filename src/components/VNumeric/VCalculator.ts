@@ -163,7 +163,7 @@ export default Vue.extend({
         } else {
           this.value = this.value.length <= 1 ? '0' : this.value.substring(0, this.value.length - 1)
         }
-      } else if (v === 'C') {
+      } else if (v.toUpperCase() === 'C') {
         this.reset()
       } else if (v === ',' || v === '.') {
         if (this.value.indexOf('.') === -1) {
@@ -179,11 +179,11 @@ export default Vue.extend({
         this.operation = this.getOperation(v)
         this.operand = Number(this.value)
         this.value = '0'
-      } else if (['=', 'OK'].includes(v)) {
+      } else if (['=', 'Enter', 'OK'].includes(v)) {
         this.calculate()
         this.operation = undefined
         this.operand = 0
-        this.returnValue()
+        if (v === 'Enter' || v === 'OK') this.returnValue()
       } else if (v === 'CE') {
         this.value = '0'
       } else if (v === 'Escape') {
