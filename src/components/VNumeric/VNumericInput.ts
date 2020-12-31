@@ -130,7 +130,7 @@ export default Vue.extend({
         this.clearValue()
         return
       }
-      const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', 'Backspace']
+      const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', 'Backspace', 'ArrowRight', 'ArrowLeft']
       if (!numericButtons.includes(keyEvent.key)) {
         keyEvent.preventDefault()
       }
