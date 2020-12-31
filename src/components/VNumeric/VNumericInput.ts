@@ -82,6 +82,7 @@ export default Vue.extend({
       const input = this.genTextInput()
       if (input) {
         input.style.color = newVal || null
+        input.type = 'Number'
       }
     }
   },
@@ -129,8 +130,11 @@ export default Vue.extend({
         this.clearValue()
         return
       }
-      // const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-      const strVal = Math.trunc(this.internalValue).toString()
+      const numericButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', 'Backspace']
+      if (!numericButtons.includes(keyEvent.key)) {
+        keyEvent.preventDefault()
+      }
+      let strVal = Math.trunc(this.internalValue).toString()
       // if (numericButtons.includes(keyEvent.key)) {
       //   if (this.fractDigitsEdited) {
       //     if (this.fractPart === '0' && keyEvent.key !== '0') {
@@ -166,6 +170,9 @@ export default Vue.extend({
       // if (this.$props.precision > 0) {
       //   strVal = strVal + '.' + this.fractPart
       // }
+      if (strVal.length === 0) {
+        strVal = '0'
+      }
       let result = Number(strVal)
       // if (this.$props.precision > 0) {
       //   const p = Math.pow(10, this.$props.precision)
