@@ -62,7 +62,7 @@ export default Vue.extend({
       if (this.internalValue) {
         return (this.$props.prefix ? this.$props.prefix : '') + this.internalValue
       }
-      return (this.$props.prefix ? this.$props.prefix : '')
+      return (this.$props.prefix ? this.$props.prefix : '') + this.internalValue
     },
     computedColor (): string | undefined {
       if (this.internalValue < 0 && this.$props.negativeTextColor) {
@@ -73,6 +73,7 @@ export default Vue.extend({
   watch: {
     value (val) {
       this.$data.internalValue = val
+      this.$el.getElementsByTagName('input')[0].focus()
     },
     internalValue (val) {
       this.$emit('change-value', val)
